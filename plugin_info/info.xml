@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>playtts</id>
+    <name>PlayTTS</name>
+    <description>Plugin pour faire parler Jeedom via PicoTTS et lire des fichiers audio</description>
+    <icon>fa fa-volume-up</icon>
+    <licence>AGPL</licence>
+    <author>lunarok</author>
+    <category>communication</category>
+</info>
