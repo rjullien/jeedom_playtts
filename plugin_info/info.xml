@@ -2,9 +2,9 @@
 <info>
     <id>playtts</id>
     <name>PlayTTS</name>
-    <description>Plugin pour faire parler Jeedom via PicoTTS et lire des fichiers audio</description>
-    <icon>fa fa-volume-up</icon>
+    <require>2.2.4</require>
     <licence>AGPL</licence>
     <author>lunarok</author>
-    <category>communication</category>
+    <category>multimedia</category>
+    <hasDependency>1</hasDependency>
 </info>

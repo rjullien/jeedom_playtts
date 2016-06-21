@@ -1,13 +1,8 @@
 == PlayTTS
 
-=== Description
-Plugin pour lire des fichiers audio et du TTS.
-
-image:../images/playtts_screenshot1.png[]
-
 '''
-=== Installation
-include::installation.asciidoc[]
+=== Présentation
+include::presentation.asciidoc[]
 
 '''
 === Configuration

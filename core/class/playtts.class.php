@@ -21,109 +21,54 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class playtts extends eqLogic {
 
-	public static $_dico = array(
-		'af'=>'af-ZA',//Afrikaans
-		'sq'=>'sq-AL',//Albanian
-		'ar'=>'ar-YE',//Arabic
-		'hy'=>'hy-AM',//Armenian
-		'ca'=>'ca-ES',//Catalan
-		'zh-CN'=>'zh-CN',//Mandarin (simplified)
-		'zh-TW'=>'zh-TW',//Mandarin (traditional)
-		'hr'=>'hr-HR',//Croatian
-		'cs'=>'cs-CZ',//Czech
-		'da'=>'da-DK',//Danish
-		'nl'=>'nl-NL',//Dutch
-		'en'=>'en-GB',//English
-		'en-us'=>'en-US',//English (United States)
-		'en-au'=>'en-AU',//English (Australia)
-		'eo'=>'eo',//Esperanto
-		'fi'=>'fi-FI',//Finnish
-		'fr'=>'fr-FR',//French
-		'de'=>'de-DE',//German
-		'el'=>'el-GR',//Greek
-		'ht'=>'ht',//Haitian Creole
-		'hi'=>'hi-IN',//Hindi
-		'hu'=>'hu-HU',//Hungarian
-		'is'=>'is-IS',//Icelandic
-		'id'=>'id-ID',//Indonesian
-		'it'=>'it-IT',//Italian
-		'ja'=>'ja-JP',//Japanese
-		'ko'=>'ko-KR',//Korean
-		'la'=>'la',//Latin
-		'lv'=>'lv-LV',//Latvian
-		'mk'=>'mk-MK',//Macedonian
-		'no'=>'nb-NO',//Norwegian
-		'pl'=>'pl-PL',//Polish
-		'pt'=>'pt-PT',//Portuguese
-		'ro'=>'ro-RO',//Romanian
-		'ru'=>'ru-RU',//Russian
-		'sr'=>'sr-SP',//Serbian
-		'sk'=>'sk-SK',//Slovak
-		'es'=>'es-ES',//Spanish
-		'sw'=>'sw-KE',//Swahili
-		'sv'=>'sv-SE',//Swedish
-		'ta'=>'ta-IN',//Tamil
-		'th'=>'th-TH',//Thai
-		'tr'=>'tr-TR',//Turkish
-		'vi'=>'vi-VN',//Vietnamese
-		'cy'=>'cy-GB',//Welsh
-	);
+	public static function dependancy_info() {
+    $return = array();
+    $return['log'] = 'playtts_dep';
+    $cmd = "dpkg -l | grep mplayer";
+    exec($cmd, $output, $return_var);
+    if ($output[0] != "") {
+      $return['state'] = 'ok';
+    } else {
+      $return['state'] = 'nok';
+    }
+    return $return;
+  }
+  public static function dependancy_install() {
+    passthru('/bin/bash ' . realpath(dirname(__FILE__)) . '/../../resources/install.sh > ' . log::getPathToLog('playtts_dep') . ' 2>&1 &');
+  }
 
-	public function postUpdate() {
-		$playttsCmd = $this->getCmd(null, 'parle');
-		if (!is_object($playttsCmd)) {
-			$playttsCmd = new playttsCmd();
+	public function preUpdate() {
+		if ($this->getConfiguration('maitreesclave') == '') {
+			throw new Exception(__('Merci de remplir le type de lecteur',__FILE__));
 		}
-		$playttsCmd->setName(__('Parle', __FILE__));
-		$playttsCmd->setLogicalId('parle');
-		$playttsCmd->setEqLogic_id($this->getId());
-		$playttsCmd->setType('action');
-		$playttsCmd->setSubType('message');
-		$playttsCmd->save();
 	}
 
-}
+	public function postUpdate() {
+		$playttsCmd = playttsCmd::byEqLogicIdAndLogicalId($this->getId(),'tts');
+		if (!is_object($playttsCmd)) {
+			log::add('playtts', 'debug', 'Création de la commande TTS');
+			$playttsCmd = new playttsCmd();
+			$playttsCmd->setName(__('TTS', __FILE__));
+			$playttsCmd->setEqLogic_id($this->id);
+			$playttsCmd->setEqType('playtts');
+			$playttsCmd->setLogicalId('tts');
+			$playttsCmd->setType('action');
+			$playttsCmd->setSubType('message');
+			$playttsCmd->save();
+		}
+		$playttsCmd = playttsCmd::byEqLogicIdAndLogicalId($this->getId(),'play');
+		if (!is_object($playttsCmd)) {
+			log::add('playtts', 'debug', 'Création de la commande Play');
+			$playttsCmd = new playttsCmd();
+			$playttsCmd->setName(__('Lecture Fichier', __FILE__));
+			$playttsCmd->setEqLogic_id($this->id);
+			$playttsCmd->setEqType('playtts');
+			$playttsCmd->setLogicalId('play');
+			$playttsCmd->setType('action');
+			$playttsCmd->setSubType('message');
+			$playttsCmd->save();
+		}
 
-class playttsCmd extends cmd {
-
-	public function execute($_options = null) {
-
-		$playtts = $this->getEqLogic();
-		if($playtts->getConfiguration('lang')==""){
-			$playtts_lang = "fr";
-		}else{
-			$playtts_lang = $playtts->getConfiguration('lang');
-		}
-		if($playtts_moteurTTS=="pico"){
-			$playtts_lang = self::$_dico[$playtts_lang];
-		}
-		$playtts_opt = $playtts->getConfiguration('opt');
-		$playtts_moteurTTS = $playtts->getConfiguration('moteurTTS');
-		if($playtts_moteurTTS=="url"){
-			$playtts_url = $playtts->getConfiguration('url');
-		}else if($playtts_moteurTTS=="pico") {
-			$playtts_url = "pico";
-		} else {
-			$playtts_url = "";
-		}
-		if ($playtts->getConfiguration('maitreesclave') == 'deporte'){
-			$playtts_path = $playtts->getConfiguration('chemin');
-		}else {
-			$playtts_path = realpath(dirname(__FILE__) . '/../../ressources');
-		}
-		$response = true;
-
-		if (is_numeric($_options['title']) && $_options['title']>=0 && $_options['title']<=100){
-			$volume=$_options['title'];
-		} else {
-			$volume=100;
-		}
-		if ($playtts_opt==''){
-			$playtts_opt='-volume '.$volume;
-		} else {
-			$playtts_opt=$playtts_opt.' -volume '.$volume;
-		}
-		log::add('playtts', 'info', 'Debut de l action '.'/usr/bin/python ' . $playtts_path . '/tts.py -l '.$playtts_lang.' -o "'.$playtts_opt.'" -u "'.$playtts_url.'" -t "' . $_options['message'] . '" 2>&1');
 		if ($playtts->getConfiguration('maitreesclave') == 'deporte'){
 			$ip=$playtts->getConfiguration('addressip');
 			$port=$playtts->getConfiguration('portssh');
@@ -135,7 +80,51 @@ class playttsCmd extends cmd {
 				if (!ssh2_auth_password($connection,$user,$pass)){
 					log::add('playtts', 'error', 'Authentification SSH KO');
 				}else{
-					$result = ssh2_exec($connection, '/usr/bin/python ' . $playtts_path . '/tts.py -l '.$playtts_lang.' -o "'.$playtts_opt.'" -u "'.$playtts_url.'" -t "' . $_options['message'] . '" 2>&1');
+					log::add('playtts', 'debug', 'Dépendances en SSH');
+					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/install.sh', 'install_playtts.sh', 0755);
+					$result = ssh2_exec('sudo bash install_playtts.sh');
+					stream_set_blocking($result, true);
+					$result = stream_get_contents($result);
+
+					$closesession = ssh2_exec($connection, 'exit');
+					stream_set_blocking($closesession, true);
+					stream_get_contents($closesession);
+				}
+			}
+		}
+	}
+
+	public function sendCommand( $id, $type, $option ) {
+		log::add('playtts', 'debug', 'Lecture : ' . $type . ' ' . $option);
+		$playtts = self::byId($id, 'playtts');
+		if ($type == 'tts') {
+			$hash = hash('md5', $option);
+			$file = '/tmp/' . $hash . '.mp3';
+		} else {
+			$file = $option;
+		}
+		log::add('playtts', 'debug', 'File : ' .  $file);
+		if ($playtts->getConfiguration('maitreesclave') == 'deporte'){
+			$ip=$playtts->getConfiguration('addressip');
+			$port=$playtts->getConfiguration('portssh');
+			$user=$playtts->getConfiguration('user');
+			$pass=$playtts->getConfiguration('password');
+			if (!$connection = ssh2_connect($ip,$port)) {
+				log::add('playtts', 'error', 'connexion SSH KO');
+			}else{
+				if (!ssh2_auth_password($connection,$user,$pass)){
+					log::add('playtts', 'error', 'Authentification SSH KO');
+				}else{
+					log::add('playtts', 'debug', 'Commande par SSH');
+					if ($type == 'tts') {
+						$lang = $playtts->getConfiguration('lang');
+						if ($lang == '') {
+							$lang == 'fr-FR';
+						}
+						$pico = ssh2_exec("pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");
+						$sox = ssh2_exec("sox /tmp/voice.wav -r 48k " . $file);
+					}
+					$result = ssh2_exec('mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
 					stream_set_blocking($result, true);
 					$result = stream_get_contents($result);
 
@@ -145,11 +134,40 @@ class playttsCmd extends cmd {
 				}
 			}
 		}else {
-			$result = shell_exec('/usr/bin/python ' . $playtts_path . '/tts.py -l '.$playtts_lang.' -o "'.$playtts_opt.'" -u "'.$playtts_url.'" -t "' . $_options['message'] . '" 2>&1');
-		}
-		return $result;
+			if (!file_exists($file)) {
+				if ($type == 'tts') {
+					$lang = $playtts->getConfiguration('lang');
+					if ($lang == '') {
+						$lang == 'fr-FR';
+					}
+					exec("pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");
+					exec("sox /tmp/voice.wav -r 48k " . $file);
+				} else {
+					log::add('playtts', 'error', 'Fichier inexistant');
+					return;
+				}
+			}
 
-		/*     * **********************Getteur Setteur*************************** */
+			exec('mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
+		}
+	}
+
+}
+
+class playttsCmd extends cmd {
+
+	public function preSave() {
+		if ($this->getSubtype() == 'message') {
+			$this->setDisplay('title_disable', 1);
+		}
+	}
+
+	public function execute($_options = null) {
+		log::add('playtts', 'info', 'Commande recue : ' . $_options['message']);
+		$eqLogic = $this->getEqLogic();
+		playtts::sendCommand($eqLogic->getId(), $this->getLogicalId(), $_options['message']);
+		return true;
 	}
 }
+
 ?>

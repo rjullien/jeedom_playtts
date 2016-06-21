@@ -1,0 +1,6 @@
+'''
+=== PlayTTS, Faire parler Jeedom et lire des sons, morceaux
+
+PlayTTS est un plugin pour utiliser la sortie audio de votre Jeedom ou d'un déporté.
+
+Il permet simplement de faire du TTS en utilisant PicoTTS (solution sans cloud, aucun moteur cloud n'est supporté)
