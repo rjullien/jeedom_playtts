@@ -21,14 +21,5 @@ sudo usermod -a -G audio www-data
 echo "Ajout de www-data dans le groupe audio"
 echo 80 > /tmp/playtts_dep
 
-sudo amixer set Master 85%
-echo "Configuration audio"
-echo 0 > /tmp/playtts_dep
-
-sudo amixer set Headphone 85%
-echo "Configuration sortie audio"
-echo 90 > /tmp/playtts_dep
-
-sudo amixer set PCM 85%
 echo "Fin de l'installation"
 rm /tmp/playtts_dep

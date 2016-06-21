@@ -69,11 +69,15 @@ class playtts extends eqLogic {
 			$playttsCmd->save();
 		}
 
-		if ($playtts->getConfiguration('maitreesclave') == 'deporte'){
-			$ip=$playtts->getConfiguration('addressip');
-			$port=$playtts->getConfiguration('portssh');
-			$user=$playtts->getConfiguration('user');
-			$pass=$playtts->getConfiguration('password');
+	}
+
+	public function postSave() {
+
+		if ($this->getConfiguration('maitreesclave') == 'deporte'){
+			$ip=$this->getConfiguration('addressip');
+			$port=$this->getConfiguration('portssh');
+			$user=$this->getConfiguration('user');
+			$pass=$this->getConfiguration('password');
 			if (!$connection = ssh2_connect($ip,$port)) {
 				log::add('playtts', 'error', 'connexion SSH KO');
 			}else{
