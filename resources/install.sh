@@ -10,7 +10,10 @@ echo 30 > /tmp/playtts_dep
 
 test=`lsb_release -is`
 if [ "$test" = "Raspbian" ]; then
-        sudo apt-get install -y libsox-fmt-mp3 sox libttspico-data
+        sudo apt-get install -y libsox-fmt-mp3 sox
+        sudo dpkg -i libttspico-data_1.0+git20130326-3_all.deb
+        sudo dpkg -i libttspico0_1.0+git20130326-3_armhf.deb
+        sudo dpkg -i libttspico-utils_1.0+git20130326-3_armhf.deb
 else
         sudo apt-get install -y libsox-fmt-mp3 sox libttspico-utils
 fi
