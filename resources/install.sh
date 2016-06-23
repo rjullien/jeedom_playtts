@@ -8,15 +8,16 @@ sudo apt-get install -y mplayer mpg123 lsb-release
 echo "Installation mplayer"
 echo 30 > /tmp/playtts_dep
 
-test=`lsb_release -is`
-if [ "$test" = "Raspbian" ]; then
-        sudo apt-get install -y libsox-fmt-mp3 sox
-        sudo dpkg -i libttspico-data_1.0+git20130326-3_all.deb
-        sudo dpkg -i libttspico0_1.0+git20130326-3_armhf.deb
-        sudo dpkg -i libttspico-utils_1.0+git20130326-3_armhf.deb
-else
-        sudo apt-get install -y libsox-fmt-mp3 sox libttspico-utils
+if [[ $arch == "armv6l" ]]
+  then
+    sudo apt-get install -y libsox-fmt-mp3 sox
+    sudo dpkg -i libttspico-data_1.0+git20130326-3_all.deb
+    sudo dpkg -i libttspico0_1.0+git20130326-3_armhf.deb
+    sudo dpkg -i libttspico-utils_1.0+git20130326-3_armhf.deb
+  else
+    sudo apt-get install -y libsox-fmt-mp3 sox libttspico-utils
 fi
+
 echo "Installation PicoTTS"
 echo 70 > /tmp/playtts_dep
 

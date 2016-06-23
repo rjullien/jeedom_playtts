@@ -27,7 +27,9 @@ class playtts extends eqLogic {
     $cmd = "dpkg -l | grep mplayer";
     exec($cmd, $output, $return_var);
     if ($output[0] != "") {
-      $return['state'] = 'ok';
+			if (`which pico2wave`) {
+			    $return['state'] = 'ok';
+			}
     } else {
       $return['state'] = 'nok';
     }
