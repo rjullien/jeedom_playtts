@@ -29,7 +29,9 @@ class playtts extends eqLogic {
     if ($output[0] != "") {
 			if (`which pico2wave`) {
 			    $return['state'] = 'ok';
-			}
+			} else {
+	      $return['state'] = 'nok';
+	    }
     } else {
       $return['state'] = 'nok';
     }
