@@ -26,7 +26,7 @@ class playtts extends eqLogic {
     $return['log'] = 'playtts_dep';
     $cmd = "dpkg -l | grep mplayer";
     exec($cmd, $output, $return_var);
-    if ($output[0] != "") {
+    if (isset($output[0])) {
 			if (`which pico2wave`) {
 			    $return['state'] = 'ok';
 			} else {
@@ -89,8 +89,11 @@ class playtts extends eqLogic {
 					log::add('playtts', 'error', 'Authentification SSH KO');
 				}else{
 					log::add('playtts', 'debug', 'Dépendances en SSH');
-					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/install.sh', 'install_playtts.sh', 0755);
-					$result = ssh2_exec('sudo bash install_playtts.sh');
+					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/libttspico-data_1.0+git20130326-3_all.deb', '/tmp/libttspico-data_1.0+git20130326-3_all.deb', 0755);
+					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/libttspico0_1.0+git20130326-3_armhf.deb', '/tmp/libttspico0_1.0+git20130326-3_armhf.deb', 0755);
+					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/libttspico-utils_1.0+git20130326-3_armhf.deb', '/tmp/libttspico-utils_1.0+git20130326-3_armhf.deb', 0755);
+					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/install.sh', '/tmp/install_playtts.sh', 0755);
+					$result = ssh2_exec($connection, 'bash /tmp/install_playtts.sh /tmp/ > /tmp/playtts_dep 2>&1');
 					stream_set_blocking($result, true);
 					$result = stream_get_contents($result);
 

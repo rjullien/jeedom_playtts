@@ -6,7 +6,7 @@ echo 0 > /tmp/playtts_dep
 
 echo "Installation mplayer"
 echo 30 > /tmp/playtts_dep
-sudo apt-get install -y mplayer mpg123 lsb-release
+sudo apt-get install -y -q mplayer mpg123 lsb-release software-properties-common
 
 echo "Installation PicoTTS"
 echo 70 > /tmp/playtts_dep
@@ -18,6 +18,9 @@ if [[ $arch == "armv6l" || $arch == "armv7l" ]]
     sudo dpkg -i libttspico0_1.0+git20130326-3_armhf.deb
     sudo dpkg -i libttspico-utils_1.0+git20130326-3_armhf.deb
   else
+    sudo add-apt-repository non-free
+    sudo add-apt-repository contrib
+    sudo apt-get update
     sudo apt-get install -y libsox-fmt-mp3 sox libttspico-utils
 fi
 
