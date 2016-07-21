@@ -132,10 +132,15 @@ class playtts extends eqLogic {
 						if ($lang == '') {
 							$lang == 'fr-FR';
 						}
-						$pico = ssh2_exec("pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");
-						$sox = ssh2_exec("sox /tmp/voice.wav -r 48k " . $file);
+						$pico = ssh2_exec($connection,"pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");						
+						stream_set_blocking($pico, true);
+						$result = stream_get_contents($pico);						
+						
+						$sox = ssh2_exec($connection,"sox /tmp/voice.wav -r 48k " . $file);
+						stream_set_blocking($sox, true);
+						$result = stream_get_contents($sox);						
 					}
-					$result = ssh2_exec('mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
+					$result = ssh2_exec($connection,'mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
 					stream_set_blocking($result, true);
 					$result = stream_get_contents($result);
 
