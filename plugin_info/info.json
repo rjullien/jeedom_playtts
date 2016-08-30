@@ -1,0 +1,9 @@
+{
+	"id" : "playtts",
+	"name" : "PlayTTS",
+	"licence" : "AGPL",
+	"author" : "lunarok",
+	"require" : "2.4",
+	"category" : "multimedia",
+  "hasDependency" : 1
+}
