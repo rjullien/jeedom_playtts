@@ -1,37 +1,37 @@
 {
     "plugins\/playtts\/desktop\/php\/playtts.php": {
         "Ajouter un équipement": "Ajouter un équipement",
-        "Rechercher": "Rechercher",
+        "Rechercher": "Search",
         "Mes PlayTTS": "Mes PlayTTS",
-        "Sauvegarder": "Sauvegarder",
-        "Supprimer": "Supprimer",
-        "Configuration avancée": "Configuration avancée",
-        "Equipement": "Equipement",
+        "Sauvegarder": "Save",
+        "Supprimer": "Delete",
+        "Configuration avancée": "Advanced settings",
+        "Equipement": "Equipment",
         "Commandes": "Commandes",
         "Lecteur playtts": "Lecteur playtts",
         "Nom de l'équipement playtts": "Nom de l'équipement playtts",
         "Objet parent": "Objet parent",
-        "Aucun": "Aucun",
-        "Catégorie": "Catégorie",
-        "Activer": "Activer",
+        "Aucun": "None",
+        "Catégorie": "Category",
+        "Activer": "Activate",
         "Visible": "Visible",
-        "Commentaire": "Commentaire",
-        "Langue": "Langue",
+        "Commentaire": "Comment",
+        "Langue": "Language",
         "Options mplayer (optionnel)": "Options mplayer (optionnel)",
         "Equipement local ou déporté ?": "Equipement local ou déporté ?",
         "Local": "Local",
-        "Déporté": "Déporté",
-        "Adresse IP": "Adresse IP",
+        "Déporté": "Distant",
+        "Adresse IP": "IP Address",
         "saisir l'adresse IP": "saisir l'adresse IP",
         "Port SSH": "Port SSH",
         "saisir le port SSH": "saisir le port SSH",
-        "Identifiant": "Identifiant",
+        "Identifiant": "ID",
         "saisir le login": "saisir le login",
-        "Mot de passe": "Mot de passe",
+        "Mot de passe": "Password",
         "saisir le password": "saisir le password",
-        "Nom": "Nom",
+        "Nom": "Name",
         "Sous-Type": "Sous-Type",
-        "Paramètres": "Paramètres"
+        "Paramètres": "Parameters"
     },
     "plugins\/playtts\/desktop\/js\/playtts.js": {
         "Afficher": "Afficher",
@@ -40,6 +40,6 @@
     "plugins\/playtts\/core\/class\/playtts.class.php": {
         "Merci de remplir le type de lecteur": "Merci de remplir le type de lecteur",
         "TTS": "TTS",
-        "Lecture Fichier": "Lecture Fichier"
+        "Lecture Fichier": "File read"
     }
 }
