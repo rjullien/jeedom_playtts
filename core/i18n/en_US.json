@@ -1,8 +1,8 @@
 {
     "plugins\/playtts\/desktop\/php\/playtts.php": {
-        "Ajouter un équipement": "Ajouter un équipement",
+        "Ajouter un équipement": "Add equipment",
         "Rechercher": "Search",
-        "Mes PlayTTS": "Mes PlayTTS",
+        "Mes PlayTTS": "My PlayTTS",
         "Sauvegarder": "Save",
         "Supprimer": "Delete",
         "Configuration avancée": "Advanced settings",
