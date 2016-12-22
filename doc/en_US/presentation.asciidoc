@@ -1,5 +1,5 @@
 '''
-=== PlayTTS, Faire parler Jeedom et lire des sons, morceaux
+=== PlayTTS, Jeedom talks and play sounds.
 
 PlayTTS est un plugin pour utiliser la sortie audio de votre Jeedom ou d'un déporté.
 
