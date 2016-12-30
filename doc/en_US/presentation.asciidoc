@@ -1,6 +1,6 @@
 '''
 === PlayTTS, Jeedom talks and play sounds.
 
-PlayTTS est un plugin pour utiliser la sortie audio de votre Jeedom ou d'un déporté.
+PlayTTS is a plugin to use the audio output of your Jeedom or of a remote one.
 
 It just helps to make the TTS using PicoTTS (cloud solution, no cloud engine is supported)
