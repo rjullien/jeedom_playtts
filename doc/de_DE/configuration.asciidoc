@@ -1,5 +1,5 @@
 '''
-=== Configuration
+=== Konfiguration
 
 Il n'y a pas de configuration générale
 
