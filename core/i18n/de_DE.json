@@ -21,21 +21,21 @@
         "Equipement local ou déporté ?": "Lokale oder Remote Geräte?",
         "Local": "Lokal",
         "Déporté": "Remote",
-        "Adresse IP": "Adresse IP",
-        "saisir l'adresse IP": "saisir l'adresse IP",
-        "Port SSH": "Port SSH",
-        "saisir le port SSH": "saisir le port SSH",
-        "Identifiant": "Identifiant",
-        "saisir le login": "saisir le login",
-        "Mot de passe": "Mot de passe",
-        "saisir le password": "saisir le password",
-        "Nom": "Nom",
-        "Sous-Type": "Sous-Type",
-        "Paramètres": "Paramètres"
+        "Adresse IP": "IP Adresse",
+        "saisir l'adresse IP": "Geben Sie die IP-Adresse ein",
+        "Port SSH": "SSH Port",
+        "saisir le port SSH": "Geben Sie den SSH Port ein",
+        "Identifiant": "Benutzer-ID",
+        "saisir le login": "Geben Sie die Anmeldedaten ein",
+        "Mot de passe": "Passwort",
+        "saisir le password": "Geben Sie das Passwort ein",
+        "Nom": "Name",
+        "Sous-Type": "Unter-Typ",
+        "Paramètres": "Parameter"
     },
     "plugins\/playtts\/desktop\/js\/playtts.js": {
-        "Afficher": "Afficher",
-        "Tester": "Tester"
+        "Afficher": "Anzeigen",
+        "Tester": "Testen"
     },
     "plugins\/playtts\/core\/class\/playtts.class.php": {
         "Merci de remplir le type de lecteur": "Merci de remplir le type de lecteur",
