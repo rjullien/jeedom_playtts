@@ -132,13 +132,13 @@ class playtts extends eqLogic {
 						if ($lang == '') {
 							$lang == 'fr-FR';
 						}
-						$pico = ssh2_exec($connection,"pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");						
+						$pico = ssh2_exec($connection,"pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");
 						stream_set_blocking($pico, true);
-						$result = stream_get_contents($pico);						
-						
+						$result = stream_get_contents($pico);
+
 						$sox = ssh2_exec($connection,"sox /tmp/voice.wav -r 48k " . $file);
 						stream_set_blocking($sox, true);
-						$result = stream_get_contents($sox);						
+						$result = stream_get_contents($sox);
 					}
 					$result = ssh2_exec($connection,'mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
 					stream_set_blocking($result, true);
@@ -156,8 +156,8 @@ class playtts extends eqLogic {
 					if ($lang == '') {
 						$lang == 'fr-FR';
 					}
-					exec("pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");
-					exec("sox /tmp/voice.wav -r 48k " . $file);
+					exec("pico2wave -l " . $lang . " -w /tmp/lvoice.wav \"" . $option . "\"");
+					exec("sox /tmp/lvoice.wav -r 48k " . $file);
 				} else {
 					log::add('playtts', 'error', 'Fichier inexistant');
 					return;
